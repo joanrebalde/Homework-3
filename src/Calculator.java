@@ -17,34 +17,18 @@ public class Calculator extends JFrame {
     private JLabel labelRS;
     private JTextField txtM2;
 
-    public Calculator() {
+    public Calculator(JFrame parent) {
+        setContentPane(panelMain);
+        setTitle("GUI Practice");
+        setSize(350, 250);
+        setLocationRelativeTo(null);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         buttonCalc.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                double m1 = Double.parseDouble(txtM1.getText());
-                double m2 = Double.parseDouble(txtM2.getText());
-                double ta = Double.parseDouble(txtTA.getText());
-                double sum=0;
-
-                if (m1<=0 && m2<=0 && ta<=0) {
-                    JOptionPane.showMessageDialog(null, "Invalid input!");
-                    txtRS.setText("0");
-                    txtM1.setText("0");
-                    txtM2.setText("0");
-                    txtTA.setText("0");
-
-                } else if (m1>=1 && m1 <= 25 && m2>=1 && m2 <= 40 && ta>=1 && ta <= 35) {
-                    sum = m1+m2+ta;
-                    txtRS.setText(String.valueOf(sum));
-                } else {
-                    JOptionPane.showMessageDialog(null, "Invalid input!");
-                    txtRS.setText("0");
-                    txtM1.setText("0");
-                    txtM2.setText("0");
-                    txtTA.setText("0");
-
-                }
+                MilestoneCalc();
             }
         });
 
@@ -78,16 +62,46 @@ public class Calculator extends JFrame {
                 }
             }
         });
+
+        setVisible(true);
     }
 
+        private void MilestoneCalc() {
+            if (txtM1.getText().isEmpty() || txtM2.getText().isEmpty() || txtTA.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter all fields",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            } else {
+                try {
+                    double m1 = Double.parseDouble(txtM1.getText());
+                    double m2 = Double.parseDouble(txtM2.getText());
+                    double ta = Double.parseDouble(txtTA.getText());
+                    double sum = 0;
+                    
+                    if (m1<=0 && m2<=0 && ta<=0) {
+                        JOptionPane.showMessageDialog(this,
+                                "Invalid input!",
+                                "Error", JOptionPane.ERROR_MESSAGE);    
+                    } else if (m1>=1 && m1 <= 25 && m2>=1 && m2 <= 40 && ta>=1 && ta <= 35) {
+                        sum = m1+m2+ta;
+                        txtRS.setText(String.valueOf(sum));
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Invalid input!",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this,
+                            "Invalid input!",
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
     public static void main (String[] args) {
-    Calculator n = new Calculator();
-    n.setContentPane(n.panelMain);
-    n.setTitle("GUI Practice");
-    n.setSize(450,350);
-    n.setLocationRelativeTo(null);
-    n.setVisible(true);
-    n.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    Calculator n = new Calculator(null);
+
     }
 
 }
